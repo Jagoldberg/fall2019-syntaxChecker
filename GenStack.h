@@ -23,64 +23,73 @@ class GenStack
     E *myArray;
 };
 
-GenStack::GenStack()//default constructor
+template <typename E>GenStack<E>::GenStack()//default constructor
 {
   //Initilization of default values
-  myArray = new char[128];
+  myArray = new E[128];
   size = 128;
   top = -1;
 }
 
-GenStack::GenStack(int maxSize)
+template <typename E>GenStack<E>::GenStack(int maxSize)
 {
   myArray = new char[maxSize];
   size = maxSize;
   top = -1;
 }
 
-GenStack::~GenStack()
+template <typename E>GenStack<E>::~GenStack()
 {
-  //lets build some character
-  //your job to research this
-}
-
-void GenStack::push(E d)
-{
-  //need to check error/boundary check
-  //this is your job
-  if (!isFull){
-    myArray[++top] = d;
-  } else {
-    throw Exception("")
+  if(isEmpty()){
+    delete [] myArray;
   }
 }
 
-E GenStack::pop(){
+template <typename E> void GenStack<E>::push(E d)
+{
+  //need to check error/boundary check
+  //this is your job
+  if (!isFull()){
+    myArray[++top] = d;
+  } else {
+    throw StackException("Array is full, cannot add new values");
+  }
+}
+
+template <typename E> E GenStack<E>::pop(){
   //error checking, make sure its not isEmpty
   if(!isEmpty()){
     return myArray[top--];
   } else {
-    throw Exception("Stack is empty, nothing to return");
+    throw StackException("Stack is empty, nothing to return");
   }
 
 }
 
-E GenStack::peek()
+template <typename E> E GenStack<E>::peek()
 {
   //check if empty
   if(!isEmpty()){
     return myArray[top];
   } else {
-    throw Exception("Stack is empty, nothing to return");
+    throw StackException("Stack is empty, nothing to return");
   }
 }
 
-bool GenStack::isFull()
+template <typename E> bool GenStack<E>::isFull()
 {
   return (top == size-1);
 }
 
-bool GenStack::isEmpty()
+template <typename E> bool GenStack<E>::isEmpty()
 {
   return (top == -1);
 }
+
+class StackException{
+public:
+  StackException(string& err): errMsg(err){}
+  string getError() {return errMsg;}
+private:
+  string errMsg;
+};
