@@ -1,4 +1,5 @@
 #include <iostream>
+#include "StackException.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ template <typename E>GenStack<E>::GenStack()//default constructor
 
 template <typename E>GenStack<E>::GenStack(int maxSize)
 {
-  myArray = new char[maxSize];
+  myArray = new E[maxSize];
   size = maxSize;
   top = -1;
 }
@@ -85,11 +86,3 @@ template <typename E> bool GenStack<E>::isEmpty()
 {
   return (top == -1);
 }
-
-class StackException{
-public:
-  StackException(string& err): errMsg(err){}
-  string getError() {return errMsg;}
-private:
-  string errMsg;
-};
